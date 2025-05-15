@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import DataTable from "react-data-table-component";
+import Confirmation from "./Confirmation";
 
 export default function Usertable() {
   const columns = [
@@ -29,12 +30,6 @@ export default function Usertable() {
       width: "20%",
       sortable: true,
     },
-    // {
-    //   name: "Age",
-    //   selector: (row) => row.age,
-    //   width: "25%",
-    //   sortable: true,
-    // },
     {
       name: "Action",
       cell: (row) => (
@@ -58,7 +53,8 @@ export default function Usertable() {
           <Button
             variant="danger"
             size="sm"
-            onClick={() => handleDeleteItem(row.id)}
+            value={"deleteData"}
+            onClick={(e) => handleShow(row.id, e.target.value)}
           >
             🗑️
           </Button>
@@ -69,13 +65,37 @@ export default function Usertable() {
     },
   ];
 
-  function handleDeleteItem(param) {
-    console.log(param);
+  async function handleDeleteItem() {
+    console.log(`masuk sini`);
+    console.log(`id yang diselect saat ini: ${selectedId}`);
+    console.log(`action yang diselect saat ini: ${selectedAction}`);
+
+    //delete data
+    const newDataAfterDelete = records.filter((record) => {
+      return record.id !== selectedId;
+    });
+    console.log(`setelah data kena delete:`);
+    console.log(newDataAfterDelete);
+    setRecords(newDataAfterDelete);
+    setShow(false);
   }
 
   const [records, setRecords] = useState([]);
 
   const [recordsAPI, setRecordsAPI] = useState([]);
+
+  const [show, setShow] = useState(false);
+
+  const [isDelete, setIsDeleteData] = useState(false);
+  const [selectedId, setSelectedId] = useState("");
+  const [selectedAction, setSelectedAction] = useState("");
+
+  const handleClose = () => setShow(false);
+  const handleShow = (id, action) => {
+    setShow(true);
+    setSelectedId(id);
+    setSelectedAction(action);
+  };
 
   useEffect(() => {
     const onLoadFetchData = async () => {
@@ -115,23 +135,33 @@ export default function Usertable() {
   }
 
   return (
-    <Container>
-      <div className="text-end">
-        <input
-          type="text"
-          name="txtSearchBar"
-          id="searchBar"
-          placeholder="Search here"
-          onChange={handleFilter}
-        />
-      </div>
-      <DataTable
-        columns={columns}
-        data={records}
-        fixedHeader
-        pagination
-        highlightOnHover
-      ></DataTable>
-    </Container>
+    <>
+      <Container>
+        <div className="text-end">
+          <input
+            type="text"
+            name="txtSearchBar"
+            id="searchBar"
+            placeholder="Search here"
+            onChange={handleFilter}
+          />
+        </div>
+        <DataTable
+          columns={columns}
+          data={records}
+          paginationPerPage={2}
+          paginationRowsPerPageOptions={[2, 3, 4, 5, 6]}
+          fixedHeader
+          pagination
+          highlightOnHover
+        ></DataTable>
+      </Container>
+      <Confirmation
+        show={show}
+        handleClose={handleClose}
+        deleteDataStatus={isDelete}
+        onDeleteItem={handleDeleteItem}
+      ></Confirmation>
+    </>
   );
 }
