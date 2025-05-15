@@ -3,6 +3,7 @@ import Container from "react-bootstrap/esm/Container";
 import Button from "react-bootstrap/esm/Button";
 import DataTable from "react-data-table-component";
 import Confirmation from "./Confirmation";
+import DetailsUser from "./DetailsUser";
 
 export default function Usertable() {
   const columns = [
@@ -38,7 +39,7 @@ export default function Usertable() {
             variant="success"
             size="sm"
             className="me-2"
-            onClick={() => handleDeleteItem(row.id)}
+            onClick={(e) => handleShow(row.id, e.target.value)}
           >
             👁️
           </Button>
@@ -84,12 +85,10 @@ export default function Usertable() {
 
   const [recordsAPI, setRecordsAPI] = useState([]);
 
-  const [show, setShow] = useState(false);
-
   const [isDelete, setIsDeleteData] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [selectedAction, setSelectedAction] = useState("");
-
+  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = (id, action) => {
     setShow(true);
@@ -162,6 +161,7 @@ export default function Usertable() {
         deleteDataStatus={isDelete}
         onDeleteItem={handleDeleteItem}
       ></Confirmation>
+      {/* <DetailsUser></DetailsUser> */}
     </>
   );
 }
