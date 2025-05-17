@@ -72,8 +72,8 @@ export default function Register({
         <Form onSubmit={handleRegisterSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Control
-              type="text"
-              placeholder="Username or email address"
+              type="email"
+              placeholder="Enter email address"
               onChange={(e) => setEmail(e.target.value)}
             />
           </Form.Group>

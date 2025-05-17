@@ -7,6 +7,7 @@ import Confirmation from "./Confirmation";
 import DetailsUser from "./DetailsUser";
 
 export default function Usertable() {
+  const [isLoading, setIsLoading] = useState(false);
   const columns = [
     {
       name: "Personnel ID",
@@ -108,18 +109,26 @@ export default function Usertable() {
 
   useEffect(() => {
     const onLoadFetchData = async () => {
-      const response = await fetch("https://reqres.in/api/users?page=", {
-        headers: {
-          "x-api-key": "reqres-free-v1",
-        },
-      });
+      setIsLoading(true);
+      try {
+        const response = await fetch("https://reqres.in/api/users?page=", {
+          headers: {
+            "x-api-key": "reqres-free-v1",
+          },
+        });
 
-      const data = await response.json();
-      console.log("ini records api");
-      console.log(data.data);
+        const data = await response.json();
+        console.log("ini records api");
+        console.log(data.data);
 
-      setRecordsAPI(data.data);
-      setRecords(data.data);
+        setRecordsAPI(data.data);
+        setRecords(data.data);
+      } catch (err) {
+        console.log(err);
+        console.log("Error fetching data!");
+      } finally {
+        setIsLoading(false);
+      }
     };
     onLoadFetchData();
   }, []);
@@ -146,6 +155,7 @@ export default function Usertable() {
   return (
     <>
       <Container>
+        <h1>Dashboard Admin</h1>
         <div className="text-end">
           <input
             type="text"
@@ -155,15 +165,23 @@ export default function Usertable() {
             onChange={handleFilter}
           />
         </div>
-        <DataTable
-          columns={columns}
-          data={records}
-          paginationPerPage={2}
-          paginationRowsPerPageOptions={[2, 3, 4, 5, 6]}
-          fixedHeader
-          pagination
-          highlightOnHover
-        ></DataTable>
+        {isLoading ? (
+          <Spinner animation="border" role="status" variant="primary">
+            <span className="visually-hidden">
+              Loading Data, Please Wait...
+            </span>
+          </Spinner>
+        ) : (
+          <DataTable
+            columns={columns}
+            data={records}
+            paginationPerPage={6}
+            paginationRowsPerPageOptions={[2, 3, 4, 5, 6]}
+            fixedHeader
+            pagination
+            highlightOnHover
+          ></DataTable>
+        )}
       </Container>
       <Confirmation
         show={show}

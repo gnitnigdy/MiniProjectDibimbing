@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Usertable from "./../components/Usertable";
+import Button from "react-bootstrap/Button";
 export default function Home() {
   const navigate = useNavigate();
 
@@ -15,7 +16,7 @@ export default function Home() {
     // </div>
     <>
       <Usertable />
-      <button onClick={handleLogout}>Logout</button>
+      <Button onClick={handleLogout}>Logout</Button>
     </>
   );
 }
