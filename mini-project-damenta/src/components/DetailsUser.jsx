@@ -1,45 +1,55 @@
 import { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 
-export default function DetailsUser({ id, onShow }) {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => {
-    setShow(true);
-  };
-
+export default function DetailsUser({ id, show, onCloseDetail }) {
   const [recordDetails, setRecordsDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const onLoadFetchData = async () => {
-      const response = await fetch(`https://reqres.in/api/users/${id}`, {
-        headers: {
-          "x-api-key": "reqres-free-v1",
-        },
-      });
-
-      const data = await response.json();
-      console.log("ini records details api");
-      console.log(data.data);
-
-      setRecordsDetails(data.data);
+      //set spinner
+      setIsLoading(true);
+      try {
+        const response = await fetch(`https://reqres.in/api/users/${id}`, {
+          headers: {
+            "x-api-key": "reqres-free-v1",
+          },
+        });
+        const data = await response.json();
+        setRecordsDetails(data.data);
+      } catch (error) {
+        console.error("Gagal Fetch Data!", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
-    onLoadFetchData();
-  }, []);
+    if (id && show) {
+      onLoadFetchData();
+    }
+  }, [id, show]);
 
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={onCloseDetail}>
       <Modal.Header className="justify-content-center">
         <Modal.Title>Profile Details</Modal.Title>
       </Modal.Header>
       <Modal.Body className="text-center">
-        <img src={recordDetails.avatar} alt="" />
-        <h3>{`${recordDetails.first_name} ${recordDetails.last_name}`}</h3>
-        <p>{recordDetails.email}</p>
+        {isLoading ? (
+          <Spinner animation="border" role="status" variant="primary">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        ) : (
+          <>
+            <img src={recordDetails.avatar} alt="" />
+            <h3>{`${recordDetails.first_name} ${recordDetails.last_name}`}</h3>
+            <p>{recordDetails.email}</p>
+          </>
+        )}
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={onCloseDetail}>Close</Button>
       </Modal.Footer>
     </Modal>
   );
