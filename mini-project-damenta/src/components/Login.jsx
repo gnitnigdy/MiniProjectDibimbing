@@ -3,16 +3,58 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useState } from "react";
 
 export default function Login() {
+  const [isLogin, setLogin] = useState(false);
+
   function onHandleSubmit(e) {
     e.preventDefault();
     alert("Login Sukses");
   }
 
+  function handleLogin() {
+    setLogin((prev) => !prev);
+  }
+
   return (
-    <Container className="border border-secondary rounded p-4">
-      <h3 className="mb-3">Login Form</h3>
+    <Container
+      style={{ width: "50%" }}
+      className="border border-secondary rounded p-4"
+    >
+      {isLogin ? (
+        <>
+          <h3 className="mb-3">Login Form</h3>
+          <p>
+            For Sign Up, Please Click{" "}
+            <span>
+              <a
+                href="#"
+                style={{ textDecoration: "none" }}
+                onClick={handleLogin}
+              >
+                Here
+              </a>
+            </span>
+          </p>
+        </>
+      ) : (
+        <>
+          <h3 className="mb-3">Sign Up Form</h3>
+          <p>
+            For Login, Please Click{" "}
+            <span>
+              <a
+                href="#"
+                style={{ textDecoration: "none" }}
+                onClick={handleLogin}
+              >
+                Here
+              </a>
+            </span>
+          </p>
+        </>
+      )}
       <Row>
         <Form onSubmit={(e) => onHandleSubmit(e)}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -22,7 +64,7 @@ export default function Login() {
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
           <Button variant="primary" type="submit">
-            Login
+            {isLogin ? "Login" : "Sign Up"}
           </Button>
         </Form>
       </Row>

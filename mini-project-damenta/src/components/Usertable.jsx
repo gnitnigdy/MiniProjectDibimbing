@@ -45,14 +45,7 @@ export default function Usertable() {
           >
             👁️
           </Button>
-          <Button
-            variant="warning"
-            size="sm"
-            className="me-2"
-            onClick={() => handleDeleteItem(row.id)}
-          >
-            ✏️
-          </Button>
+
           <Button
             variant="danger"
             size="sm"
