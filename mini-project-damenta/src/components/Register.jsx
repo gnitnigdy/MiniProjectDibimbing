@@ -5,17 +5,22 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
 
-export default function Register({ onLoginSuccess, onLoginRegister }) {
+export default function Register({
+  onRegisterSuccess,
+  onLoginRegister,
+  isSuccessRegister,
+  handleSuccessRegistration,
+}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isError, setIsError] = useState("");
 
-  async function handleLoginSubmit(e) {
+  async function handleRegisterSubmit(e) {
     e.preventDefault();
     setIsError("");
 
     try {
-      const response = await fetch(`https://reqres.in/api/login`, {
+      const response = await fetch(`https://reqres.in/api/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -27,8 +32,14 @@ export default function Register({ onLoginSuccess, onLoginRegister }) {
       console.log(data);
 
       if (response.ok) {
-        console.log("login sukses");
-        onLoginSuccess(data.token);
+        console.log("register sukses");
+
+        handleSuccessRegistration();
+
+        onRegisterSuccess(data.token);
+        setTimeout(() => {
+          onLoginRegister();
+        }, 3000);
       } else {
         setIsError(data.error);
         throw data.error;
@@ -58,7 +69,7 @@ export default function Register({ onLoginSuccess, onLoginRegister }) {
       </p>
       {/* eve.holt@reqres.in     cityslicka */}
       <Row>
-        <Form onSubmit={handleLoginSubmit}>
+        <Form onSubmit={handleRegisterSubmit}>
           <Form.Group className="mb-3" controlId="formBasicEmail">
             <Form.Control
               type="text"
@@ -74,6 +85,14 @@ export default function Register({ onLoginSuccess, onLoginRegister }) {
             />
           </Form.Group>
           {isError && <p style={{ color: "red" }}>{isError}</p>}
+          {isSuccessRegister && (
+            <p style={{ color: "green" }}>
+              Successful Registration! You will automatically redirected to
+              Login.
+              <br />
+              Please wait. . .
+            </p>
+          )}
           <Button variant="primary" type="submit">
             Sign Up
           </Button>

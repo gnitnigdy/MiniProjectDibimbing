@@ -45,7 +45,6 @@ export default function Usertable() {
           >
             👁️
           </Button>
-
           <Button
             variant="danger"
             size="sm"

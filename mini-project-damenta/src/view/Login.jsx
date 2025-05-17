@@ -11,9 +11,15 @@ export default function Login() {
     navigate("/home");
   };
 
+  const handleRegisterSuccess = () => {
+    navigate("/login");
+  };
+
   const [isLogin, setIsLogin] = useState(true);
+  const [isSuccessRegister, setIsSuccessRegister] = useState(false);
 
   function handleLoginRegister() {
+    setIsSuccessRegister(false);
     setIsLogin((prev) => !prev);
   }
 
@@ -28,7 +34,12 @@ export default function Login() {
       ) : (
         <Register
           loginRegister={isLogin}
+          onRegisterSuccess={handleRegisterSuccess}
           onLoginRegister={handleLoginRegister}
+          isSuccessRegister={isSuccessRegister}
+          handleSuccessRegistration={() =>
+            setIsSuccessRegister((prev) => !prev)
+          }
         />
       )}
     </>
