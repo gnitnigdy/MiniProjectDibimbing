@@ -1,12 +1,20 @@
-# React + Vite
+# Mini Project Dibimbing
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Project created by Yohanes Damenta FE22.
 
-Currently, two official plugins are available:
+## Tech stacks
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Project ini menggunakan tech stacks diantaranya:
+React JS with Vite
+React Bootstrap
+React Data Table Component
+Dummy API using Reqres.in
+React Router DOM
 
-## Expanding the ESLint configuration
+### Project Guidelines
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Halaman awal akan menuju pada /login
+2. Halaman dashboard atau home hanya bisa diakses setelah melakukan proses login
+3. Pada halaman home untuk melihat detail silahkan klik pada tombol hijau.
+4. Details akan ditunjukkan dalam bentuk modal pop-up
+5. Terdapat tombol logout untuk menghancurkan atau mengosongkan token yang digunakan ketika Login dari localstorage

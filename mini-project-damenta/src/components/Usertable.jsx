@@ -80,6 +80,7 @@ export default function Usertable() {
 
   const [recordsAPI, setRecordsAPI] = useState([]);
 
+  // eslint-disable-next-line no-unused-vars
   const [isDelete, setIsDeleteData] = useState(false);
   const [selectedId, setSelectedId] = useState("");
   const [selectedAction, setSelectedAction] = useState("");
